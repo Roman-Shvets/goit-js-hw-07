@@ -30,17 +30,18 @@ event.preventDefault();
   return;
   }
 const imagePath = event.target.getAttribute('data-source');
-// import * as basicLightbox from 'basiclightbox'
-instance = basicLightbox.create(`<img src="${imagePath}" width="800" height="600">`);
-instance.show();
-document.addEventListener("keydown", escapeHandler);
+  instance = basicLightbox.create(`<img src="${imagePath}" width="800" height="600">`, {
+    onShow: () => { document.addEventListener("keydown", escapeHandler)},
+    onClose: () => { document.removeEventListener("keydown", escapeHandler)}
+  });
+
+  instance.show();
 }
 
 
 function escapeHandler(event) {
   if (event.code === "Escape") {
   instance.close();
-  document.removeEventListener("keydown", escapeHandler);
   }
 }
 
